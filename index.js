@@ -1,15 +1,15 @@
-function removeNthFromEnd(head, n) {
-  const dummy = new ListNode(0);
-  dummy.next = head;
-  let first = dummy;
-  let second = dummy;
-  for (let i = 0; i <= n; i++) {
-    first = first.next;
+const selectionSortRecursive = (arr, start = 0) => {
+  if (start >= arr.length - 1) {
+    return arr;
   }
-  while (first !== null) {
-    first = first.next;
-    second = second.next;
+  let minIndex = start;
+  for (let i = start + 1; i < arr.length; i++) {
+    if (arr[i] < arr[minIndex]) {
+      minIndex = i;
+    }
   }
-  second.next = second.next.next;
-  return dummy.next;
-}
+  if (minIndex !== start) {
+    [arr[start], arr[minIndex]] = [arr[minIndex], arr[start]];
+  }
+  return selectionSortRecursive(arr, start + 1);
+};
