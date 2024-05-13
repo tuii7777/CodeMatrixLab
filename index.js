@@ -1,15 +1,20 @@
-const selectionSortRecursive = (arr, start = 0) => {
-  if (start >= arr.length - 1) {
-    return arr;
+function longestPalindrome(s) {
+  let longest = "";
+  for (let i = 0; i < s.length; i++) {
+    const oddPalindrome = expandAroundCenter(s, i, i);
+    const evenPalindrome = expandAroundCenter(s, i, i + 1);
+    const currentLongest =
+      oddPalindrome.length > evenPalindrome.length
+        ? oddPalindrome
+        : evenPalindrome;
+    if (currentLongest.length > longest.length) longest = currentLongest;
   }
-  let minIndex = start;
-  for (let i = start + 1; i < arr.length; i++) {
-    if (arr[i] < arr[minIndex]) {
-      minIndex = i;
-    }
+  return longest;
+}
+function expandAroundCenter(s, left, right) {
+  while (left >= 0 && right < s.length && s[left] === s[right]) {
+    left--;
+    right++;
   }
-  if (minIndex !== start) {
-    [arr[start], arr[minIndex]] = [arr[minIndex], arr[start]];
-  }
-  return selectionSortRecursive(arr, start + 1);
-};
+  return s.slice(left + 1, right);
+}
